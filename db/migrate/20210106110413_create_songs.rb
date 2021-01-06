@@ -1,7 +1,7 @@
 class CreateSongs < ActiveRecord::Migration[6.1]
   def change
-    create_table :songs do |t|
-      t.references :discography, null: false
+    create_table :songs, id: :uuid do |t|
+      t.references :discography, type: :uuid, null: false, foreign_key: true
       t.string :wrapper_type, null: false
       t.string :kind, null: false
       t.bigint :apple_artist_id, null: false

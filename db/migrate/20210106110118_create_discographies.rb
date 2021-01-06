@@ -1,6 +1,6 @@
 class CreateDiscographies < ActiveRecord::Migration[6.1]
   def change
-    create_table :discographies do |t|
+    create_table :discographies, id: :uuid do |t|
       t.string :wrapper_type, null: false
       t.string :collection_type, null: false
       t.bigint :apple_artist_id, null: false

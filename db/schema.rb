@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_110413) do
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "discographies", force: :cascade do |t|
+  create_table "discographies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "wrapper_type", null: false
     t.string "collection_type", null: false
     t.bigint "apple_artist_id", null: false
@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(version: 2021_01_06_110413) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "songs", force: :cascade do |t|
-    t.bigint "discography_id", null: false
+  create_table "songs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "discography_id", null: false
     t.string "wrapper_type", null: false
     t.string "kind", null: false
     t.bigint "apple_artist_id", null: false
@@ -113,4 +113,5 @@ ActiveRecord::Schema.define(version: 2021_01_06_110413) do
     t.index ["discography_id"], name: "index_songs_on_discography_id"
   end
 
+  add_foreign_key "songs", "discographies"
 end
