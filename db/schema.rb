@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_110118) do
+ActiveRecord::Schema.define(version: 2021_01_06_110413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -69,6 +69,48 @@ ActiveRecord::Schema.define(version: 2021_01_06_110118) do
     t.float "series_order", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.bigint "discography_id", null: false
+    t.string "wrapper_type", null: false
+    t.string "kind", null: false
+    t.bigint "apple_artist_id", null: false
+    t.bigint "apple_collection_id", null: false
+    t.bigint "apple_track_id", null: false
+    t.string "artist_name", null: false
+    t.string "collection_name", null: false
+    t.string "track_name", null: false
+    t.string "collection_censored_name", null: false
+    t.string "track_censored_name", null: false
+    t.string "artist_view_url", default: "", null: false
+    t.text "collection_view_url", null: false
+    t.text "track_view_url", null: false
+    t.string "preview_url", default: "", null: false
+    t.string "artwork_url30", null: false
+    t.string "artwork_url60", null: false
+    t.string "artwork_url100", null: false
+    t.integer "collection_price"
+    t.integer "track_price"
+    t.datetime "release_date", null: false
+    t.string "collection_explicitness", null: false
+    t.string "track_explicitness", null: false
+    t.integer "disc_count", null: false
+    t.integer "disc_number", null: false
+    t.integer "track_count", null: false
+    t.integer "track_number", null: false
+    t.integer "track_time_millis", null: false
+    t.string "country", null: false
+    t.string "currency", null: false
+    t.string "primary_genre_name", null: false
+    t.boolean "is_streamable", default: false, null: false
+    t.boolean "is_touhou", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["apple_artist_id"], name: "index_songs_on_apple_artist_id"
+    t.index ["apple_collection_id"], name: "index_songs_on_apple_collection_id"
+    t.index ["apple_track_id"], name: "index_songs_on_apple_track_id", unique: true
+    t.index ["discography_id"], name: "index_songs_on_discography_id"
   end
 
 end
