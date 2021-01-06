@@ -10,11 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_104747) do
+ActiveRecord::Schema.define(version: 2021_01_06_105525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "master_artists", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "apple_artist_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "original_songs", primary_key: "code", id: :string, force: :cascade do |t|
     t.string "original_code", null: false

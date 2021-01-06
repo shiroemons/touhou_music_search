@@ -1,0 +1,2 @@
+class MasterArtist < ApplicationRecord
+end
