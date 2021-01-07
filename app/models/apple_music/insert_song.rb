@@ -13,7 +13,7 @@ module AppleMusic
 
     def fetch_songs
       return if Song.exists?(apple_collection_id: collection_id)
-      url = "https://itunes.apple.com/lookup?id=#{collection_id}&entity=song&country=jp&lang=ja_jp"
+      url = "https://itunes.apple.com/lookup?id=#{collection_id}&entity=song&country=jp&lang=ja_jp&limit=200"
       response = Faraday.get(url)
       response = JSON.parse(response.body)
       response

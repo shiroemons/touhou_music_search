@@ -12,10 +12,8 @@ module AppleMusic
     end
 
     def fetch_discography
-      return if Discography.exists?(apple_artist_id: artist_id)
-
       # ref: https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
-      url = "https://itunes.apple.com/lookup?id=#{artist_id}&entity=album&country=jp&lang=ja_jp"
+      url = "https://itunes.apple.com/lookup?id=#{artist_id}&entity=album&country=jp&lang=ja_jp&limit=200"
       response = Faraday.get(url)
       response = JSON.parse(response.body)
       response

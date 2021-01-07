@@ -9,7 +9,7 @@ artist_count = 0
 artists = Song.touhou.pluck(:apple_artist_id).uniq
 max_artists = artists.count
 artists.each do |id|
-  url = "https://itunes.apple.com/lookup?id=#{id}&entity=song&country=jp&lang=ja_jp"
+  url = "https://itunes.apple.com/lookup?id=#{id}&entity=song&country=jp&lang=ja_jp&limit=200"
   response = Faraday.get(url)
   response = JSON.parse(response.body)
   response["results"].each do |result|
