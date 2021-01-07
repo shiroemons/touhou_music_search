@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_110413) do
+ActiveRecord::Schema.define(version: 2021_01_07_170116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_110413) do
     t.boolean "is_touhou", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "record_label", default: "", null: false
     t.index ["apple_artist_id"], name: "index_discographies_on_apple_artist_id"
     t.index ["apple_collection_id"], name: "index_discographies_on_apple_collection_id", unique: true
   end
@@ -107,6 +108,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_110413) do
     t.boolean "is_touhou", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "composer_name", default: "", null: false
     t.index ["apple_artist_id"], name: "index_songs_on_apple_artist_id"
     t.index ["apple_collection_id"], name: "index_songs_on_apple_collection_id"
     t.index ["apple_track_id"], name: "index_songs_on_apple_track_id", unique: true
