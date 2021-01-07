@@ -1,5 +1,5 @@
 class Discography < ApplicationRecord
-  has_many :songs, dependent: :destroy
+  has_many :songs, -> { order(Arel.sql('songs.track_number ASC')) }, dependent: :destroy
 
   scope :touhou, -> { where(is_touhou: true) }
   scope :not_touhou, -> { where(is_touhou: false) }
