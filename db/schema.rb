@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_13_141959) do
+ActiveRecord::Schema.define(version: 2021_01_15_102517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -111,6 +111,10 @@ ActiveRecord::Schema.define(version: 2021_01_13_141959) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "composer_name", default: "", null: false
     t.boolean "has_lyrics", default: false, null: false
+    t.string "youtube_collection_name", default: "", null: false
+    t.string "youtube_track_name", default: "", null: false
+    t.string "youtube_collection_view_url", default: "", null: false
+    t.string "youtube_track_view_url", default: "", null: false
     t.index ["apple_artist_id"], name: "index_songs_on_apple_artist_id"
     t.index ["apple_collection_id"], name: "index_songs_on_apple_collection_id"
     t.index ["apple_track_id"], name: "index_songs_on_apple_track_id", unique: true
