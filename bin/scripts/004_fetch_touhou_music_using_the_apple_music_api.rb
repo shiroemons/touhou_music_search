@@ -39,7 +39,7 @@ def correct_touhou_music(discography)
         song.update(composer_name: composer_name)
       end
 
-      if song.is_touhou && !(is_touhou || (composer_name.include?('ZUN') || composer_name.include?('あきやまうに')))
+      if song.is_touhou && !(is_touhou || (composer_name&.include?('ZUN') || composer_name&.include?('あきやまうに')))
         song.update(is_touhou: false)
       end
     end
