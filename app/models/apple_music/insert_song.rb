@@ -32,44 +32,47 @@ module AppleMusic
       response["results"].each do |result|
         wrapper_type = result["wrapperType"]
         apple_collection_id = result["collectionId"]
+        apple_track_id = result["trackId"]
         next if collection_id != apple_collection_id
         next if wrapper_type != "track"
-        insert_data << {
-          discography_id: discography.id,
-          wrapper_type: wrapper_type,
-          kind: result["kind"],
-          apple_artist_id: result["artistId"],
-          apple_collection_id: apple_collection_id,
-          apple_track_id: result["trackId"],
-          artist_name: result["artistName"],
-          collection_name: result["collectionName"],
-          track_name: result["trackName"],
-          collection_censored_name: result["collectionCensoredName"],
-          track_censored_name: result["trackCensoredName"],
-          artist_view_url: result["artistViewUrl"] || "",
-          collection_view_url: result["collectionViewUrl"],
-          track_view_url: result["trackViewUrl"],
-          preview_url: result["previewUrl"] || "",
-          artwork_url30: result["artworkUrl30"],
-          artwork_url60: result["artworkUrl60"],
-          artwork_url100: result["artworkUrl100"],
-          collection_price: result["collectionPrice"],
-          track_price: result["trackPrice"],
-          release_date: Time.parse(result["releaseDate"]),
-          collection_explicitness: result["collectionExplicitness"],
-          track_explicitness: result["trackExplicitness"],
-          disc_count: result["discCount"],
-          disc_number: result["discNumber"],
-          track_count: result["trackCount"],
-          track_number: result["trackNumber"],
-          track_time_millis: result["trackTimeMillis"],
-          country: result["country"],
-          currency: result["currency"],
-          primary_genre_name: result["primaryGenreName"],
-          is_streamable: result["isStreamable"],
-          created_at: now,
-          updated_at: now
-        }
+        unless Song.exists?(apple_track_id: apple_track_id)
+          insert_data << {
+            discography_id: discography.id,
+            wrapper_type: wrapper_type,
+            kind: result["kind"],
+            apple_artist_id: result["artistId"],
+            apple_collection_id: apple_collection_id,
+            apple_track_id: result["trackId"],
+            artist_name: result["artistName"],
+            collection_name: result["collectionName"],
+            track_name: result["trackName"],
+            collection_censored_name: result["collectionCensoredName"],
+            track_censored_name: result["trackCensoredName"],
+            artist_view_url: result["artistViewUrl"] || "",
+            collection_view_url: result["collectionViewUrl"],
+            track_view_url: result["trackViewUrl"],
+            preview_url: result["previewUrl"] || "",
+            artwork_url30: result["artworkUrl30"],
+            artwork_url60: result["artworkUrl60"],
+            artwork_url100: result["artworkUrl100"],
+            collection_price: result["collectionPrice"],
+            track_price: result["trackPrice"],
+            release_date: Time.parse(result["releaseDate"]),
+            collection_explicitness: result["collectionExplicitness"],
+            track_explicitness: result["trackExplicitness"],
+            disc_count: result["discCount"],
+            disc_number: result["discNumber"],
+            track_count: result["trackCount"],
+            track_number: result["trackNumber"],
+            track_time_millis: result["trackTimeMillis"],
+            country: result["country"],
+            currency: result["currency"],
+            primary_genre_name: result["primaryGenreName"],
+            is_streamable: result["isStreamable"],
+            created_at: now,
+            updated_at: now
+          }
+        end
       end
       if insert_data.present?
         Song.insert_all(insert_data)
