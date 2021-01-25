@@ -39,7 +39,9 @@ def correct_touhou_music(discography)
         song.update(composer_name: composer_name)
       end
 
-      if song.is_touhou && !(is_touhou || (composer_name&.include?('ZUN') || composer_name&.include?('あきやまうに')))
+      if !song.is_touhou && Song.exceptional_touhou_songs.include?(song.apple_track_id)
+        song.update(is_touhou: true)
+      elsif song.is_touhou && !(is_touhou || (composer_name&.include?('ZUN') || composer_name&.include?('あきやまうに')))
         song.update(is_touhou: false)
       end
     end
@@ -52,7 +54,7 @@ end
 
 @headers = { "Authorization" => "Bearer #{AppleMusic::Token.token}" }
 album_count = 0
-discographies = Discography.all
+discographies = Discography.order(updated_at: :desc)
 max_albums = discographies.count
 discographies.find_each do |discography|
   correct_touhou_music(discography)
