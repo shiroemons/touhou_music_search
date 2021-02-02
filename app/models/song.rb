@@ -1,4 +1,7 @@
 class Song < ApplicationRecord
+  has_many :songs_original_songs, dependent: :destroy
+  has_many :original_songs, through: :songs_original_songs
+
   belongs_to :discography
 
   scope :includes_discography, -> { includes(:discography) }
