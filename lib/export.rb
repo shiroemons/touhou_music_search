@@ -108,3 +108,20 @@ end
 File.open("tmp/touhou_music_song_youtube.json", "w") do |f|
   f.puts JSON.pretty_generate(youtube_music_songs)
 end
+
+File.open("tmp/touhou_music_with_original_songs.tsv", "w") do |f|
+  f.puts("circle_name\tcollection_name\tcollection_view_url\ttrack_count\ttrack_number\tapple_track_id\ttrack_name\toriginal_songs")
+  Discography.includes(:songs).touhou_doujin.order(:release_date).each do |d|
+    circle_name = d.copyright.gsub(/℗ \d{4} /, "")
+    collection_view_url = d.collection_view_url&.gsub("?uo=4", "")
+    track_count = d.track_count
+    d.songs.each do |song|
+      apple_track_id = song.apple_track_id
+      collection_name = song.collection_name
+      track_name = song.track_name
+      track_number = song.track_number
+      original_songs = song.original_songs.map(&:title).join("/")
+      f.puts("#{circle_name}\t#{collection_name}\t#{collection_view_url}\t#{track_count}\t#{track_number}\t#{apple_track_id}\t#{track_name}\t#{original_songs}")
+    end
+  end
+end
