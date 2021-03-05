@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_133354) do
+ActiveRecord::Schema.define(version: 2021_02_15_141816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "circles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "discographies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "wrapper_type", null: false
@@ -43,6 +49,15 @@ ActiveRecord::Schema.define(version: 2021_02_02_133354) do
     t.string "apple_music_collection_name", default: "", null: false
     t.index ["apple_artist_id"], name: "index_discographies_on_apple_artist_id"
     t.index ["apple_collection_id"], name: "index_discographies_on_apple_collection_id", unique: true
+  end
+
+  create_table "discographies_circles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "discographies_id", null: false
+    t.uuid "circles_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["circles_id"], name: "index_discographies_circles_on_circles_id"
+    t.index ["discographies_id"], name: "index_discographies_circles_on_discographies_id"
   end
 
   create_table "master_artists", force: :cascade do |t|
@@ -130,6 +145,8 @@ ActiveRecord::Schema.define(version: 2021_02_02_133354) do
     t.index ["song_id"], name: "index_songs_original_songs_on_song_id"
   end
 
+  add_foreign_key "discographies_circles", "circles", column: "circles_id"
+  add_foreign_key "discographies_circles", "discographies", column: "discographies_id"
   add_foreign_key "songs", "discographies"
   add_foreign_key "songs_original_songs", "songs"
 end

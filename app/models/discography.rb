@@ -1,4 +1,6 @@
 class Discography < ApplicationRecord
+  has_many :discographies_circles, dependent: :destroy
+  has_many :circles, through: :discographies_circles
   has_many :songs, -> { order(Arel.sql('songs.track_number ASC')) }, dependent: :destroy
 
   scope :includes_songs, -> { includes(:songs) }
