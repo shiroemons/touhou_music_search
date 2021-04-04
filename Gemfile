@@ -32,8 +32,8 @@ group :development do
   gem 'listen', '~> 3.4'
   gem 'rack-mini-profiler', '~> 2.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
   gem 'graphiql-rails'
+  gem 'spring'
 end
 
 group :test do
@@ -50,5 +50,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'dotenv-rails'
 gem 'faraday'
 gem 'graphql'
+gem 'graphql-pagination'
 gem 'jwt'
+gem 'kaminari-activerecord'
 gem 'redis-rails'
