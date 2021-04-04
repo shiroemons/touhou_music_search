@@ -1,4 +1,6 @@
 class Original < ApplicationRecord
+  self.primary_key = :code
+
   enum original_type: {
     pc98: 'pc98',
     windows: 'windows',
@@ -7,4 +9,9 @@ class Original < ApplicationRecord
     commercial_books: 'commercial_books',
     other: 'other',
   }
+
+  has_many :original_songs, -> { order(Arel.sql('`original_songs`.`track_number` ASC')) },
+           foreign_key: :original_code,
+           inverse_of: :original,
+           dependent: :destroy
 end
