@@ -25,5 +25,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :record_label, String, null: false
     field :apple_music_collection_name, String, null: false
+    field :youtube_collection_name, String, null: false
+    field :youtube_collection_view_url, String, null: false
   end
 end
