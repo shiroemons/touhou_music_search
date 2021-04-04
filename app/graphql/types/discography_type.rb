@@ -18,7 +18,7 @@ module Types
     field :copyright, String, null: false
     field :country, String, null: false
     field :currency, String, null: false
-    field :release_date, GraphQL::Types::ISO8601DateTime, null: false
+    field :release_date, GraphQL::Types::ISO8601Date, null: false
     field :primary_genre_name, String, null: false
     field :is_touhou, Boolean, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
