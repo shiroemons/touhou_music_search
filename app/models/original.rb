@@ -14,4 +14,6 @@ class Original < ApplicationRecord
            foreign_key: :original_code,
            inverse_of: :original,
            dependent: :destroy
+
+  scope :original_song_non_duplicated, -> { includes(:original_songs).where(original_songs: { is_duplicate: false}) }
 end

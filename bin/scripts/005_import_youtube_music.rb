@@ -9,6 +9,7 @@ require 'csv'
 song_count = 0
 touhou_songs = CSV.table('db/fixtures/touhou_music_with_youtube.tsv', col_sep: "\t", converters: nil, liberal_parsing: true)
 max_songs = touhou_songs.count
+@collection_view_url = nil
 touhou_songs.each do |ts|
   apple_track_view_url = ts[:apple_track_view_url]
   song = Song.find_by(track_view_url: apple_track_view_url)
@@ -23,6 +24,15 @@ touhou_songs.each do |ts|
       youtube_collection_view_url: youtube_collection_view_url,
       youtube_track_view_url: youtube_track_view_url
     )
+    apple_collection_view_url = ts[:apple_collection_view_url]
+    if @collection_view_url != apple_collection_view_url
+      @collection_view_url = apple_collection_view_url
+      discography = Discography.find_by(collection_view_url: @collection_view_url)
+      discography&.update(
+        youtube_collection_name: youtube_collection_name,
+        youtube_collection_view_url: youtube_collection_view_url
+      )
+    end
   end
   song_count += 1
   print "\r楽曲: #{song_count}/#{max_songs} Progress: #{(song_count * 100.0 / max_songs).round(1)}%"
