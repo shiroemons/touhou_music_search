@@ -7,5 +7,6 @@ module Types
     field :series_order, Float, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :original_songs, [Types::OriginalSongType], null: true
   end
 end
