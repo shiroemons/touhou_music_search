@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: touhou_music_search_production
-  username: touhou_music_search
-  password: <%= ENV['TOUHOU_MUSIC_SEARCH_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
