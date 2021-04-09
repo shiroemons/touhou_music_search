@@ -49,6 +49,8 @@ def correct_touhou_music(discography)
     if discography.is_touhou && discography.songs.each.all? { |song| !song.is_touhou }
       discography.update(is_touhou: false)
     end
+
+    discography.update(last_fetched_at: Time.zone.now)
   end
 end
 
@@ -56,8 +58,11 @@ end
 album_count = 0
 discographies = Discography.order(updated_at: :desc)
 max_albums = discographies.count
+twelve_hours_ago = Time.zone.now.ago(12.hours)
 discographies.find_each do |discography|
-  correct_touhou_music(discography)
+  if discography.last_fetched_at.nil? || twelve_hours_ago > discography.last_fetched_at
+    correct_touhou_music(discography)
+  end
   album_count += 1
   print "\rアルバム: #{album_count}/#{max_albums} Progress: #{(album_count * 100.0 / max_albums).round(1)}%"
   sleep 0.5
