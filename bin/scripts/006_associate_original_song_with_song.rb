@@ -2,7 +2,7 @@
 # Songに原曲情報を紐付ける
 #
 # 使い方:
-# $ bin/rails r bin/scripts/006_associate_original_song_with_song
+# $ bin/rails r bin/scripts/006_associate_original_song_with_song.rb
 #
 require 'csv'
 
@@ -18,8 +18,8 @@ if token.present?
 
   max_songs = songs.size
   songs.each.with_index(1) do |track, song_count|
-    original_songs = track[:original_songs]
-    apple_track_id = track[:apple_track_id]
+    original_songs = track['original_songs']
+    apple_track_id = track['apple_track_id']
     song = Song.find_by(apple_track_id: apple_track_id)
     if song && original_songs
       original_song_list = OriginalSong.where(title: original_songs.split('/'), is_duplicate: false)
