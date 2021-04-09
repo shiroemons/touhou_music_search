@@ -15,6 +15,12 @@ class Song < ApplicationRecord
   scope :has_not_lyrics, -> { where(has_lyrics: false) }
   scope :youtube_music, -> { where.not(youtube_track_name: '') }
 
+  scope :touhou_music, lambda {
+                         Song.includes(original_songs: :original)
+                             .touhou_doujin
+                             .order(release_date: :desc, track_number: :asc)
+                       }
+
   # 例外の東方楽曲
   # 作曲者が ZUN または、あきやまうに ではない東方楽曲
   def self.exceptional_touhou_songs
