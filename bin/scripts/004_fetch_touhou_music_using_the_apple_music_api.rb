@@ -4,6 +4,7 @@
 # 使い方:
 # $ bin/rails r bin/scripts/004_fetch_touhou_music_using_the_apple_music_api.rb
 #
+require 'objspace'
 
 def correct_touhou_music(discography)
   url = "https://api.music.apple.com/v1/catalog/jp/albums/#{discography.apple_collection_id}"
@@ -65,5 +66,13 @@ discographies.find_each do |discography|
     sleep 0.5
   end
   album_count += 1
-  print "\rアルバム: #{album_count}/#{max_albums} Progress: #{(album_count * 100.0 / max_albums).round(1)}%"
+  progress = "アルバム: #{album_count}/#{max_albums} Progress: #{(album_count * 100.0 / max_albums).round(1)}%"
+  memsize = "memsize: #{ObjectSpace.memsize_of_all / 1024 / 1024} MB"
+  display = "#{progress} #{memsize}"
+  if Rails.env.production?
+    puts display
+    break if ObjectSpace.memsize_of_all / 1024 / 1024 > 500
+  else
+    print "\r#{display}"
+  end
 end
