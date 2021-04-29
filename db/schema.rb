@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_29_021406) do
+ActiveRecord::Schema.define(version: 2021_04_29_022347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -67,9 +67,10 @@ ActiveRecord::Schema.define(version: 2021_04_29_021406) do
 
   create_table "master_artists", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "apple_artist_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "key", default: "", null: false
+    t.string "streaming_type", default: "", null: false
   end
 
   create_table "original_songs", primary_key: "code", id: :string, force: :cascade do |t|
