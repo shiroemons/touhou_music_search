@@ -76,6 +76,7 @@ class Song < ApplicationRecord
   scope :has_lyrics, -> { where(has_lyrics: true) }
   scope :has_not_lyrics, -> { where(has_lyrics: false) }
   scope :youtube_music, -> { where.not(youtube_track_name: '') }
+  scope :spotify, -> { where.not(spotify_track_name: '') }
 
   scope :touhou_music, lambda {
                          Song.includes(original_songs: :original)

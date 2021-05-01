@@ -51,4 +51,7 @@ class Discography < ApplicationRecord
   scope :touhou, -> { where(is_touhou: true) }
   scope :not_touhou, -> { where(is_touhou: false) }
   scope :various_artists, -> { where(artist_name: "Various Artists") }
+
+  scope :youtube_music, -> { where.not(youtube_collection_name: '') }
+  scope :spotify, -> { where.not(spotify_collection_name: '') }
 end
