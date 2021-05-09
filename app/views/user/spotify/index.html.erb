@@ -1,0 +1,12 @@
+<table>
+  <tr>
+    <th>プレイリスト名</th>
+    <th>URL</th>
+  </tr>
+  <% @playlists.each do |playlist| %>
+    <tr>
+      <td><%= playlist.name %></td>
+      <td><%= playlist.external_urls["spotify"] %></td>
+    </tr>
+  <% end %>
+</table>

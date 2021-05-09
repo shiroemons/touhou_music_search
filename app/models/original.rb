@@ -22,7 +22,7 @@ class Original < ApplicationRecord
     other: 'other',
   }
 
-  has_many :original_songs, -> { order(Arel.sql('`original_songs`.`track_number` ASC')) },
+  has_many :original_songs, -> { order(Arel.sql('original_songs.track_number ASC')) },
            foreign_key: :original_code,
            inverse_of: :original,
            dependent: :destroy
