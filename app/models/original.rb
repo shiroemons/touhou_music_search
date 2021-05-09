@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: originals
+#
+#  code          :string           not null, primary key
+#  original_type :string           not null
+#  series_order  :float            not null
+#  short_title   :string           not null
+#  title         :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 class Original < ApplicationRecord
   self.primary_key = :code
 
@@ -10,7 +22,7 @@ class Original < ApplicationRecord
     other: 'other',
   }
 
-  has_many :original_songs, -> { order(Arel.sql('`original_songs`.`track_number` ASC')) },
+  has_many :original_songs, -> { order(Arel.sql('original_songs.track_number ASC')) },
            foreign_key: :original_code,
            inverse_of: :original,
            dependent: :destroy

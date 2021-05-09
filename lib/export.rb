@@ -109,6 +109,20 @@ File.open("tmp/touhou_music_song_youtube.json", "w") do |f|
   f.puts JSON.pretty_generate(youtube_music_songs)
 end
 
+spotify_songs = []
+Song.touhou_doujin.touhou.spotify.order(:collection_name).find_each do |song|
+  track_name = song.spotify_track_name
+  collection_name = song.spotify_collection_name
+  track_view_url = song.spotify_track_view_url
+  if track_name.present? && track_name != "不明"
+    spotify_songs.push({ title: track_name, collection_name: collection_name, url: track_view_url})
+  end
+end
+
+File.open("tmp/touhou_music_song_spotify.json", "w") do |f|
+  f.puts JSON.pretty_generate(spotify_songs)
+end
+
 File.open("tmp/touhou_music_with_original_songs.tsv", "w") do |f|
   f.puts("circle_name\tcollection_name\tcollection_view_url\ttrack_count\ttrack_number\tapple_track_id\ttrack_name\toriginal_songs")
   Discography.includes(:songs).touhou_doujin.order(:release_date).each do |d|
@@ -123,5 +137,18 @@ File.open("tmp/touhou_music_with_original_songs.tsv", "w") do |f|
       original_songs = song.original_songs.map(&:title).join("/")
       f.puts("#{circle_name}\t#{collection_name}\t#{collection_view_url}\t#{track_count}\t#{track_number}\t#{apple_track_id}\t#{track_name}\t#{original_songs}")
     end
+  end
+end
+
+File.open("tmp/touhou_music_spotify_discography.tsv", "w") do |f|
+  f.puts("apple_collection_id\tartist_name\tapple_music_collection_name\tyoutube_collection_name\tspotify_collection_name")
+  Discography.touhou_doujin.touhou.each do |d|
+    next if d.spotify_collection_name.present?
+    id = d.apple_collection_id
+    artist_name = d.artist_name
+    apple_music_collection_name = d.apple_music_collection_name
+    youtube_collection_name = d.youtube_collection_name
+    spotify_collection_name = d.spotify_collection_name
+    f.puts("#{id}\t#{artist_name}\t#{apple_music_collection_name}\t#{youtube_collection_name}\t#{spotify_collection_name}")
   end
 end
