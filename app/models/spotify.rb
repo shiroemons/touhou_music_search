@@ -15,6 +15,7 @@ class Spotify
 
   def self.fetch_albums(albums, artist)
     albums.each do |album|
+      next if album.label != "東方同人音楽流通"
       album_name = album.name
       album_url = album.external_urls['spotify']
       discographies = Discography.where(youtube_collection_name: album_name)
@@ -23,7 +24,12 @@ class Spotify
       discographies = Discography.where(apple_music_collection_name: album_name) if discographies.blank?
       discographies = Discography.where("youtube_collection_name LIKE ?", "#{album_name}%") if discographies.blank?
 
-      next if discographies.size != 1
+      if discographies.size != 1
+        File.open("tmp/touhou_music_spotify_all.tsv", "a") do |f|
+          f.puts "#{artist.name}\t#{album.name}"
+        end
+        next
+      end
 
       discography = discographies.first
       discography.update(spotify_collection_name: album_name, spotify_collection_view_url: album_url)
