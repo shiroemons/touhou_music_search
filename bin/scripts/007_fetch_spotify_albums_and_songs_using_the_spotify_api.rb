@@ -7,6 +7,9 @@
 
 master_artist_count = 0
 max_master_artists = MasterArtist.spotify.count
+File.open("tmp/touhou_music_spotify_all.tsv", "w") do |f|
+  f.puts "artist_name\talbum_name"
+end
 MasterArtist.spotify.each do |ma|
   id = ma.key
   Spotify.fetch_albums_and_songs(id)
