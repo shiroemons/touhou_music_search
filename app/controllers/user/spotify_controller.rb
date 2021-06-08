@@ -26,18 +26,24 @@ class User::SpotifyController < ApplicationController
       songs = os.songs.spotify
       next if songs.size == 0
       original_song_title = os.title
-      playlist = playlist_find_or_create(original_song_title)
-      spotify_track_ids = songs.map {|song| song.spotify_track_view_url.gsub('https://open.spotify.com/track/', '') }
-      spotify_track_ids&.each_slice(50) do |ids|
-        tracks = RSpotify::Track.find(ids)
-        playlist.add_tracks!(tracks)
+      playlist = find_playlist(original_song_title)
+      if playlist.present?
+        playlist_tracks = playlist.tracks
+        # 既存のプレイリストのtrackをすべて削除する
+        until playlist_tracks.empty?
+          playlist.remove_tracks!(playlist_tracks)
+          playlist_tracks = playlist.tracks
+        end
+        spotify_track_ids = songs.map { |song| song.spotify_track_view_url.gsub('https://open.spotify.com/track/', '') }
+        spotify_track_ids&.each_slice(50) do |ids|
+          tracks = RSpotify::Track.find(ids)
+          playlist.add_tracks!(tracks)
+        end
       end
     end
   end
 
-  def playlist_find_or_create(playlist_name)
-    playlist = @spotify_user.playlists.find { |playlist| playlist.name == playlist_name}
-    playlist ||= @spotify_user.create_playlist!(playlist_name)
-    playlist
+  def find_playlist(playlist_name)
+    @playlists.find { |playlist| playlist.name == playlist_name }
   end
 end
