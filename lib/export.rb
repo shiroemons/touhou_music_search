@@ -139,6 +139,7 @@ File.open("tmp/touhou_music_with_original_songs.tsv", "w") do |f|
       track_name = song.track_name
       track_number = song.track_number
       original_songs = song.original_songs.map(&:title).join("/")
+      # next if original_songs.present?
       f.puts("#{circle_name}\t#{collection_name}\t#{collection_view_url}\t#{track_count}\t#{track_number}\t#{apple_track_id}\t#{track_name}\t#{original_songs}")
     end
   end
