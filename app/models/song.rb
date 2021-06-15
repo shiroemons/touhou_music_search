@@ -66,6 +66,8 @@
 #  fk_rails_...  (discography_id => discographies.id)
 #
 class Song < ApplicationRecord
+  has_one :odesli_song, dependent: :destroy
+
   has_many :songs_original_songs, dependent: :destroy
   has_many :original_songs, through: :songs_original_songs
 

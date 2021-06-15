@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_15_133104) do
+ActiveRecord::Schema.define(version: 2021_06_15_133435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -74,6 +74,24 @@ ActiveRecord::Schema.define(version: 2021_06_15_133104) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "key", default: "", null: false
     t.string "streaming_type", default: "", null: false
+  end
+
+  create_table "odesli_albums", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "discography_id", null: false
+    t.jsonb "payload", null: false
+    t.datetime "fetched_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["discography_id"], name: "index_odesli_albums_on_discography_id"
+  end
+
+  create_table "odesli_songs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "song_id", null: false
+    t.jsonb "payload", null: false
+    t.datetime "fetched_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["song_id"], name: "index_odesli_songs_on_song_id"
   end
 
   create_table "original_songs", primary_key: "code", id: :string, force: :cascade do |t|
@@ -165,6 +183,8 @@ ActiveRecord::Schema.define(version: 2021_06_15_133104) do
 
   add_foreign_key "discographies_circles", "circles", column: "circles_id"
   add_foreign_key "discographies_circles", "discographies", column: "discographies_id"
+  add_foreign_key "odesli_albums", "discographies"
+  add_foreign_key "odesli_songs", "songs"
   add_foreign_key "songs", "discographies"
   add_foreign_key "songs_original_songs", "songs"
 end
