@@ -2,52 +2,57 @@
 #
 # Table name: songs
 #
-#  id                          :uuid             not null, primary key
-#  artist_name                 :string           not null
-#  artist_view_url             :string           default(""), not null
-#  artwork_url100              :string           not null
-#  artwork_url30               :string           not null
-#  artwork_url60               :string           not null
-#  collection_censored_name    :string           not null
-#  collection_explicitness     :string           not null
-#  collection_name             :string           not null
-#  collection_price            :integer
-#  collection_view_url         :text             not null
-#  composer_name               :string           default(""), not null
-#  country                     :string           not null
-#  currency                    :string           not null
-#  disc_count                  :integer          not null
-#  disc_number                 :integer          not null
-#  has_lyrics                  :boolean          default(FALSE), not null
-#  is_streamable               :boolean          default(FALSE), not null
-#  is_touhou                   :boolean          default(TRUE), not null
-#  kind                        :string           not null
-#  preview_url                 :string           default(""), not null
-#  primary_genre_name          :string           not null
-#  release_date                :datetime         not null
-#  spotify_collection_name     :string           default(""), not null
-#  spotify_collection_view_url :string           default(""), not null
-#  spotify_track_name          :string           default(""), not null
-#  spotify_track_view_url      :string           default(""), not null
-#  track_censored_name         :string           not null
-#  track_count                 :integer          not null
-#  track_explicitness          :string           not null
-#  track_name                  :string           not null
-#  track_number                :integer          not null
-#  track_price                 :integer
-#  track_time_millis           :integer          not null
-#  track_view_url              :text             not null
-#  wrapper_type                :string           not null
-#  youtube_collection_name     :string           default(""), not null
-#  youtube_collection_view_url :string           default(""), not null
-#  youtube_track_name          :string           default(""), not null
-#  youtube_track_view_url      :string           default(""), not null
-#  created_at                  :datetime         not null
-#  updated_at                  :datetime         not null
-#  apple_artist_id             :bigint           not null
-#  apple_collection_id         :bigint           not null
-#  apple_track_id              :bigint           not null
-#  discography_id              :uuid             not null
+#  id                               :uuid             not null, primary key
+#  amazon_music_collection_name     :string           default(""), not null
+#  amazon_music_collection_view_url :string           default(""), not null
+#  amazon_music_track_name          :string           default(""), not null
+#  amazon_music_track_view_url      :string           default(""), not null
+#  amazon_store_collection_view_url :string           default(""), not null
+#  artist_name                      :string           not null
+#  artist_view_url                  :string           default(""), not null
+#  artwork_url100                   :string           not null
+#  artwork_url30                    :string           not null
+#  artwork_url60                    :string           not null
+#  collection_censored_name         :string           not null
+#  collection_explicitness          :string           not null
+#  collection_name                  :string           not null
+#  collection_price                 :integer
+#  collection_view_url              :text             not null
+#  composer_name                    :string           default(""), not null
+#  country                          :string           not null
+#  currency                         :string           not null
+#  disc_count                       :integer          not null
+#  disc_number                      :integer          not null
+#  has_lyrics                       :boolean          default(FALSE), not null
+#  is_streamable                    :boolean          default(FALSE), not null
+#  is_touhou                        :boolean          default(TRUE), not null
+#  kind                             :string           not null
+#  preview_url                      :string           default(""), not null
+#  primary_genre_name               :string           not null
+#  release_date                     :datetime         not null
+#  spotify_collection_name          :string           default(""), not null
+#  spotify_collection_view_url      :string           default(""), not null
+#  spotify_track_name               :string           default(""), not null
+#  spotify_track_view_url           :string           default(""), not null
+#  track_censored_name              :string           not null
+#  track_count                      :integer          not null
+#  track_explicitness               :string           not null
+#  track_name                       :string           not null
+#  track_number                     :integer          not null
+#  track_price                      :integer
+#  track_time_millis                :integer          not null
+#  track_view_url                   :text             not null
+#  wrapper_type                     :string           not null
+#  youtube_collection_name          :string           default(""), not null
+#  youtube_collection_view_url      :string           default(""), not null
+#  youtube_track_name               :string           default(""), not null
+#  youtube_track_view_url           :string           default(""), not null
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  apple_artist_id                  :bigint           not null
+#  apple_collection_id              :bigint           not null
+#  apple_track_id                   :bigint           not null
+#  discography_id                   :uuid             not null
 #
 # Indexes
 #
