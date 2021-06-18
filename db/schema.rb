@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_29_022347) do
+ActiveRecord::Schema.define(version: 2021_06_15_133435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(version: 2021_04_29_022347) do
     t.datetime "last_fetched_at", precision: 6
     t.string "spotify_collection_name", default: "", null: false
     t.string "spotify_collection_view_url", default: "", null: false
+    t.string "amazon_music_collection_name", default: "", null: false
+    t.string "amazon_music_collection_view_url", default: "", null: false
+    t.string "amazon_store_collection_view_url", default: "", null: false
     t.index ["apple_artist_id"], name: "index_discographies_on_apple_artist_id"
     t.index ["apple_collection_id"], name: "index_discographies_on_apple_collection_id", unique: true
   end
@@ -71,6 +74,24 @@ ActiveRecord::Schema.define(version: 2021_04_29_022347) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "key", default: "", null: false
     t.string "streaming_type", default: "", null: false
+  end
+
+  create_table "odesli_albums", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "discography_id", null: false
+    t.jsonb "payload", null: false
+    t.datetime "fetched_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["discography_id"], name: "index_odesli_albums_on_discography_id"
+  end
+
+  create_table "odesli_songs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "song_id", null: false
+    t.jsonb "payload", null: false
+    t.datetime "fetched_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["song_id"], name: "index_odesli_songs_on_song_id"
   end
 
   create_table "original_songs", primary_key: "code", id: :string, force: :cascade do |t|
@@ -140,6 +161,11 @@ ActiveRecord::Schema.define(version: 2021_04_29_022347) do
     t.string "spotify_track_name", default: "", null: false
     t.string "spotify_collection_view_url", default: "", null: false
     t.string "spotify_track_view_url", default: "", null: false
+    t.string "amazon_music_collection_name", default: "", null: false
+    t.string "amazon_music_track_name", default: "", null: false
+    t.string "amazon_music_collection_view_url", default: "", null: false
+    t.string "amazon_store_collection_view_url", default: "", null: false
+    t.string "amazon_music_track_view_url", default: "", null: false
     t.index ["apple_artist_id"], name: "index_songs_on_apple_artist_id"
     t.index ["apple_collection_id"], name: "index_songs_on_apple_collection_id"
     t.index ["apple_track_id"], name: "index_songs_on_apple_track_id", unique: true
@@ -157,6 +183,8 @@ ActiveRecord::Schema.define(version: 2021_04_29_022347) do
 
   add_foreign_key "discographies_circles", "circles", column: "circles_id"
   add_foreign_key "discographies_circles", "discographies", column: "discographies_id"
+  add_foreign_key "odesli_albums", "discographies"
+  add_foreign_key "odesli_songs", "songs"
   add_foreign_key "songs", "discographies"
   add_foreign_key "songs_original_songs", "songs"
 end

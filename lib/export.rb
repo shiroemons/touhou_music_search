@@ -1,6 +1,6 @@
 File.open("tmp/touhou_music.tsv", "w") do |f|
   # f.puts("collection_name\ttrack_name\tartist_name\tcomposer_name\ttrack_number\trelease_date\tcollection_view_url\ttrack_view_url")
-  f.puts("collection_name\ttrack_name\tartist_name\ttrack_number\trelease_date\tcollection_view_url\ttrack_view_url\tspotify_collection_name\tspotify_track_name\tspotify_collection_view_url\tspotify_track_view_url")
+  f.puts("collection_name\ttrack_name\tartist_name\ttrack_number\trelease_date\tcollection_view_url\ttrack_view_url\tspotify_collection_name\tspotify_track_name\tspotify_collection_view_url\tspotify_track_view_url\tamazon_music_collection_name\tamazon_music_track_name\tamazon_store_collection_view_url\tamazon_music_collection_view_url\tamazon_music_track_view_url")
   Discography.includes(:songs).touhou_doujin.order(:release_date).each do |d|
     collection_view_url = d.collection_view_url
     id = d.apple_collection_id
@@ -13,7 +13,6 @@ File.open("tmp/touhou_music.tsv", "w") do |f|
       collection_name = song.collection_name
       track_name = song.track_name
       artist_name = song.artist_name
-      composer_name = song.composer_name
       track_number = song.track_number
       release_date = song.release_date
       track_view_url = song.track_view_url
@@ -21,10 +20,12 @@ File.open("tmp/touhou_music.tsv", "w") do |f|
       spotify_track_name = song.spotify_track_name
       spotify_collection_view_url = song.spotify_collection_view_url
       spotify_track_view_url = song.spotify_track_view_url
-      # if song.is_streamable
-      #   f.puts("#{collection_name}\t#{track_name}\t#{artist_name}\t#{composer_name}\t#{track_number}\t#{release_date}\t#{collection_view_url}\t#{track_view_url}")
-      # end
-      f.puts("#{collection_name}\t#{track_name}\t#{artist_name}\t#{track_number}\t#{release_date}\t#{collection_view_url}\t#{track_view_url}\t#{spotify_collection_name}\t#{spotify_track_name}\t#{spotify_collection_view_url}\t#{spotify_track_view_url}")
+      amazon_music_collection_name = song.amazon_music_collection_name
+      amazon_music_track_name = song.amazon_music_track_name
+      amazon_store_collection_view_url = song.amazon_store_collection_view_url
+      amazon_music_collection_view_url = song.amazon_music_collection_view_url
+      amazon_music_track_view_url = song.amazon_music_track_view_url
+      f.puts("#{collection_name}\t#{track_name}\t#{artist_name}\t#{track_number}\t#{release_date}\t#{collection_view_url}\t#{track_view_url}\t#{spotify_collection_name}\t#{spotify_track_name}\t#{spotify_collection_view_url}\t#{spotify_track_view_url}\t#{amazon_music_collection_name}\t#{amazon_music_track_name}\t#{amazon_store_collection_view_url}\t#{amazon_music_collection_view_url}\t#{amazon_music_track_view_url}")
     end
   end
 end
@@ -125,6 +126,20 @@ end
 
 File.open("tmp/touhou_music_song_spotify.json", "w") do |f|
   f.puts JSON.pretty_generate(spotify_songs)
+end
+
+amazon_music_songs = []
+Song.touhou_doujin.touhou.amazon_music.order(:collection_name).find_each do |song|
+  track_name = song.amazon_music_track_name
+  collection_name = song.amazon_music_collection_name
+  track_view_url = song.amazon_music_track_view_url
+  if track_name.present? && track_name != "不明"
+    amazon_music_songs.push({ title: track_name, collection_name: collection_name, url: track_view_url})
+  end
+end
+
+File.open("tmp/touhou_music_song_amazon_music.json", "w") do |f|
+  f.puts JSON.pretty_generate(amazon_music_songs)
 end
 
 File.open("tmp/touhou_music_with_original_songs.tsv", "w") do |f|

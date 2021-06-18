@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: odesli_songs
+#
+#  id         :uuid             not null, primary key
+#  fetched_at :datetime         not null
+#  payload    :jsonb            not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  song_id    :uuid             not null
+#
+# Indexes
+#
+#  index_odesli_songs_on_song_id  (song_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (song_id => songs.id)
+#
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one: {}
+# column: value
+#
+two: {}
+# column: value
