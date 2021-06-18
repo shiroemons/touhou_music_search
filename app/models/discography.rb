@@ -59,4 +59,5 @@ class Discography < ApplicationRecord
 
   scope :youtube_music, -> { where.not(youtube_collection_name: '') }
   scope :spotify, -> { where.not(spotify_collection_name: '') }
+  scope :amazon_music, -> { where.not(amazon_music_collection_name: '') }
 end

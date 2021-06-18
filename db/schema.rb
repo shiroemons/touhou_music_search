@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_133435) do
   create_table "odesli_albums", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "discography_id", null: false
     t.jsonb "payload", null: false
-    t.datetime "fetched_at", default: -> { "now()" }, null: false
+    t.datetime "fetched_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["discography_id"], name: "index_odesli_albums_on_discography_id"
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_133435) do
   create_table "odesli_songs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "song_id", null: false
     t.jsonb "payload", null: false
-    t.datetime "fetched_at", default: -> { "now()" }, null: false
+    t.datetime "fetched_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["song_id"], name: "index_odesli_songs_on_song_id"
