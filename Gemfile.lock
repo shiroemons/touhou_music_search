@@ -107,7 +107,7 @@ GEM
     graphiql-rails (1.7.0)
       railties
       sprockets-rails
-    graphql (1.12.12)
+    graphql (1.12.13)
     graphql-pagination (1.1.2)
       graphql (~> 1.9)
     hashie (4.1.0)
